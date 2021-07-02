@@ -11,11 +11,29 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 from tensorflow.keras.applications.resnet_v2 import ResNet50V2
 
+from trashnet.get_data import get_ds_val, get_ds_train, get_ds_test
+from trashnet.preprocess import augment, preprocess
 
 img_width = 512
 img_height = 384
 colors = 3
 
+AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+ds_val = get_ds_val()
+ds_train = get_ds_train()
+ds_test = get_ds_test()
+
+ds_train = ds_train.map(augment, num_parallel_calls=AUTOTUNE).map(
+    preprocess, num_parallel_calls=AUTOTUNE)
+ds_val = ds_val.map(preprocess, num_parallel_calls=AUTOTUNE)
+ds_test = ds_test.map(preprocess, num_parallel_calls=AUTOTUNE)
+
+ds_train = ds_train.cache()
+ds_train = ds_train.prefetch(AUTOTUNE)
+
+ds_val = ds_val.prefetch(AUTOTUNE)
+ds_test = ds_test.prefetch(AUTOTUNE)
 
 # load model ResNet50V2
 def load_model():
@@ -75,10 +93,31 @@ def build_model_resnet():
     return final_model
 
 
-def fit_model(ds_train_augmented, ds_val):
+def fit_model():
+
+    # get data
+    AUTOTUNE = tf.data.experimental.AUTOTUNE
+
+    ds_val = get_ds_val()
+    ds_train = get_ds_train()
+    ds_test = get_ds_test()
+
+    ds_train = ds_train.map(augment, num_parallel_calls=AUTOTUNE).map(preprocess, num_parallel_calls=AUTOTUNE)
+    ds_val = ds_val.map(preprocess, num_parallel_calls=AUTOTUNE)
+    ds_test = ds_test.map(preprocess, num_parallel_calls=AUTOTUNE)
+
+    ds_train = ds_train.cache()
+    ds_train = ds_train.prefetch(AUTOTUNE)
+
+    ds_val = ds_val.prefetch(AUTOTUNE)
+    ds_test = ds_test.prefetch(AUTOTUNE)
+
+    #set model
     model_resnet = build_model_resnet()
     es = EarlyStopping(patience=15, restore_best_weights=True)
-    history_resnet = model_resnet.fit(ds_train_augmented,
+    history_resnet = model_resnet.fit(ds_train,
                                   validation_data=ds_val,
                                   epochs=1000,
                                   callbacks=[es])
+    evaluation = model_resnet.evaluate(ds_test)
+    return f'Accuracy score on test set : {evaluation}'
