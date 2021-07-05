@@ -2,9 +2,6 @@ import tensorflow as tf
 
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
-
-
-
 #default path colab
 path= '/content/drive/MyDrive/trashnet/dataset_project/dataset_train'
 
