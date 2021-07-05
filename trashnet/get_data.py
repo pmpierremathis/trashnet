@@ -25,7 +25,7 @@ def get_ds_train(directory=path):
       seed=123,
       validation_split=0.1,
       subset='training')
-    return ds_train
+    return os.listdir('/content/drive/MyDrive/trashnet/dataset_project/dataset_train')
 
 def get_ds_val(directory=path):
     ds_val = image_dataset_from_directory(
