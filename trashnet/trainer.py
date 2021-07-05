@@ -89,11 +89,11 @@ def fit_model():
     ds_val_prep = ds_val.map(preprocess, num_parallel_calls=AUTOTUNE)
     ds_test_prep = ds_test.map(preprocess, num_parallel_calls=AUTOTUNE)
 
-    ds_train_augmented = ds_train.cache()
-    ds_train_augmented = ds_train.prefetch(AUTOTUNE)
+    ds_train_augmented = ds_train_augmented.cache()
+    ds_train_augmented = ds_train_augmented.prefetch(AUTOTUNE)
 
 
-    ds_val_prep = ds_val_prep.prefetch(AUTOTUNE)
+    ds_val_prep = ds_val_prep.prefetch(AUTOTUNE) # check if cache could be useful
     ds_test_prep = ds_test_prep.prefetch(AUTOTUNE)
 
     model_resnet = build_model_resnet()
