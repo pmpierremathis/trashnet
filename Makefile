@@ -53,3 +53,32 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+# ----------------------------------
+#      GCP
+# ----------------------------------
+
+# path of the files to upload to gcp 
+LOCAL_PATH=XXX
+
+# project id
+PROJECT_ID=wagon-bootcamp-317708
+
+# bucket name
+BUCKET_NAME=wagon-data-633-mathis-trashnet
+
+# bucket directory in which to store the uploaded file (we choose to name this data as a convention)
+BUCKET_FOLDER=data
+
+# name for the uploaded file inside the bucket folder (here we choose to keep the name of the uploaded file)
+# BUCKET_FILE_NAME=another_file_name_if_I_so_desire.csv
+BUCKET_FILE_NAME=$(shell basename ${LOCAL_PATH})
+
+REGION=europe-west1
+
+# ----------------------------------
+#      Uvicorn
+# ----------------------------------
+
+run_api:
+	uvicorn api.fast:app --reload  # load web server with code autoreload
