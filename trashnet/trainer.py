@@ -102,4 +102,4 @@ def fit_model():
                                   validation_data=ds_val_prep,
                                   epochs=1000,
                                   callbacks=[es])
-    return history_resnet, model_resnet.evaluate(ds_test_prep)
+    return history_resnet, model_resnet.evaluate(ds_test_prep), model_resnet
