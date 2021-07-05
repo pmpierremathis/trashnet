@@ -93,8 +93,8 @@ def fit_model():
     ds_train_augmented = ds_train.prefetch(AUTOTUNE)
 
 
-    ds_val_prep = ds_val.prefetch(AUTOTUNE)
-    ds_test_prep = ds_test.prefetch(AUTOTUNE)
+    ds_val_prep = ds_val_prep.prefetch(AUTOTUNE)
+    ds_test_prep = ds_test_prep.prefetch(AUTOTUNE)
 
     model_resnet = build_model_resnet()
     es = EarlyStopping(patience=15, restore_best_weights=True)
@@ -102,5 +102,4 @@ def fit_model():
                                   validation_data=ds_val_prep,
                                   epochs=1000,
                                   callbacks=[es])
-    return history_resnet, model_resnet.evaluate(ds_val_prep)
-
+    return history_resnet, model_resnet.evaluate(ds_test_prep)
