@@ -2,6 +2,13 @@ import tensorflow as tf
 
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+
+gauth = GoogleAuth()
+gauth.LocalWebserverAuth() # client_secrets.json need to be in the same directory as the script
+drive = GoogleDrive(gauth)
+
 
 
 #default path colab
@@ -25,7 +32,7 @@ def get_ds_train(directory=path):
       seed=123,
       validation_split=0.1,
       subset='training')
-    return os.listdir('/content/drive/MyDrive/trashnet/dataset_project/dataset_train')
+    return ds_train
 
 def get_ds_val(directory=path):
     ds_val = image_dataset_from_directory(
