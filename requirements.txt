@@ -23,7 +23,7 @@ mlflow
 s3fs
 fastapi
 uvicorn
-Pillow
+Pillow==8.2.0
 python-multipart
 
 
