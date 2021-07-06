@@ -3,7 +3,6 @@ import numpy as np
 
 import tensorflow as tf
 
-
 def preprocess(image, label):
     image = image / 255
     return image, label

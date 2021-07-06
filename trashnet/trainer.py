@@ -11,15 +11,16 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 from tensorflow.keras.applications.resnet_v2 import ResNet50V2
 
+
 from trashnet.preprocess import augment, preprocess
 from trashnet.get_data import get_ds_val, get_ds_train, get_ds_test
-
 
 img_width = 512
 img_height = 384
 colors = 3
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
+
 
 # load model ResNet50V2
 def load_model():
@@ -85,6 +86,7 @@ def fit_model():
     ds_train = get_ds_train()
     ds_test = get_ds_test()
 
+
     ds_train_augmented = ds_train.map(augment, num_parallel_calls=AUTOTUNE).map(preprocess, num_parallel_calls=AUTOTUNE)
     ds_val_prep = ds_val.map(preprocess, num_parallel_calls=AUTOTUNE)
     ds_test_prep = ds_test.map(preprocess, num_parallel_calls=AUTOTUNE)
@@ -103,3 +105,4 @@ def fit_model():
                                   epochs=1000,
                                   callbacks=[es])
     return history_resnet, model_resnet.evaluate(ds_test_prep), model_resnet
+
