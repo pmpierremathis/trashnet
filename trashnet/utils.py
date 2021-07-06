@@ -57,9 +57,12 @@ def get_confusion_matrix(ds_test, model):
 
     # obtain y_true and y_prd
     y_true, y_pred = get_ys(ds_test, model)
-
+    print(y_true)
+    print(y_pred)
     #creating confusion matrix
-    cm = tf.math.confusion_matrix(y_true, y_pred, num_classes=6).numpy()
+    cm = tf.math.confusion_matrix(y_true, y_pred, num_classes=6)
+    print(cm)
+    cm = np.array(cm)
     print(cm)
     # normalization of the matrix
     cm_norm = np.around(cm.astype('float') / cm.sum(axis=1)[:, np.newaxis], decimals=2)
