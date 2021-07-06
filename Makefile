@@ -76,6 +76,8 @@ BUCKET_FILE_NAME=$(shell basename ${LOCAL_PATH})
 
 REGION=europe-west1
 
+# image name
+DOCKER_IMAGE_NAME=image-trashnet
 # ----------------------------------
 #      Uvicorn
 # ----------------------------------
@@ -84,4 +86,4 @@ run_api:
 	uvicorn api.fast:app --reload  # load web server with code autoreload
 
 deploy_GCR:
-	gcloud run deploy --image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME --platform managed --region europe-west1 --memory 2Gi
+	gcloud run deploy --image eu.gcr.io/$(PROJECT_ID)/$(DOCKER_IMAGE_NAME) --platform managed --region europe-west1 --memory 2Gi
