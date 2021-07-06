@@ -7,6 +7,7 @@ CLASSES = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
 
 img_width = 512
 img_height = 384
+colors = 3
 model_path = "model/ResNet_model/"
 
 def load_model():

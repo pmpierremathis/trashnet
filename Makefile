@@ -62,10 +62,10 @@ pypi:
 LOCAL_PATH=XXX
 
 # project id
-PROJECT_ID=wagon-bootcamp-317708
+PROJECT_ID=trashnet-project
 
 # bucket name
-BUCKET_NAME=wagon-data-633-mathis-trashnet
+BUCKET_NAME=wagon-data-633-ablond-trashnet
 
 # bucket directory in which to store the uploaded file (we choose to name this data as a convention)
 BUCKET_FOLDER=data
@@ -82,3 +82,6 @@ REGION=europe-west1
 
 run_api:
 	uvicorn api.fast:app --reload  # load web server with code autoreload
+
+deploy_GCR:
+	gcloud run deploy --image eu.gcr.io/$PROJECT_ID/$DOCKER_IMAGE_NAME --platform managed --region europe-west1 --memory 2Gi
