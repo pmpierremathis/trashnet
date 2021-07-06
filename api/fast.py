@@ -28,4 +28,5 @@ async def predict_api(file: UploadFile = File(...)):
     image = read_image(await file.read())
     prediction_ohe = model.predict(image)
     prediction = np.argmax(prediction_ohe, axis=1)
-    return {"prediction" : CLASSES[prediction[0]]}
+    return {"prediction" : CLASSES[prediction[0]],
+            "probability" : float(max(prediction_ohe[0]))}
