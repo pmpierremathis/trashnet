@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import UploadFile, File
-from trashnet.predict import read_image, predict, load_model
+from trashnet.predict import read_image, load_model, CLASSES
+import numpy as np
 
 app = FastAPI()
 
@@ -25,6 +26,6 @@ async def predict_api(file: UploadFile = File(...)):
     if not extension:
         return "Image must be jpg or png format"
     image = read_image(await file.read())
-    prediction = predict(image)
-
-    return prediction
+    prediction_ohe = model.predict(image)
+    prediction = np.argmax(prediction_ohe, axis=1)
+    return {"prediction" : CLASSES[prediction[0]]}
