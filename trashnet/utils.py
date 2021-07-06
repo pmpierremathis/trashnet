@@ -10,7 +10,7 @@ def plot_history(history, title='', axs=None, exp_name=""):
         ax1, ax2 = axs
     else:
         f, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-    
+
     if len(exp_name) > 0 and exp_name[0] != '_':
         exp_name = '_' + exp_name
     ax1.plot(history.history['loss'], label='train' + exp_name)
@@ -37,35 +37,35 @@ def get_ys(ds_test, model):
             y_true = labels
         else:
             y_true = tf.concat([y_true, labels], axis=0)
-        
+
         # Creating y_pred
         if y_pred is None:
             y_pred = model.predict(images)
         else:
             y_pred = tf.concat([y_pred, model.predict(images)], axis=0)
-    
+
     # Removing the one hot encoding
     y_true_arg = np.argmax(y_true.numpy(), axis=1)
     y_pred_arg = np.argmax(y_pred.numpy(), axis=1)
-    
+
     return y_true_arg, y_pred_arg
-    
+
 
 def get_confusion_matrix(ds_test, model):
     """Function that return the confusion matrix from ds_test and a trained model"""
     target_names = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
-    
+
     # obtain y_true and y_prd
     y_true, y_pred = get_ys(ds_test, model)
-    
+
     #creating confusion matrix
-    cm = tf.math.confusion_matrix(y_true, y_pred, num_classes=6).numpy()
-    
+    cm = tf.math.confusion_matrix(y_true, y_pred, num_classes=6)
+    cm = np.array(cm)
+
     # normalization of the matrix
     cm_norm = np.around(cm.astype('float') / cm.sum(axis=1)[:, np.newaxis], decimals=2)
-    
     #creation of a Dataframe
-    cm_df = pd.DataFrame(cm.numpy(),target_names, target_names)
+    cm_df = pd.DataFrame(cm_norm,target_names, target_names)
     return cm_df
 
 
