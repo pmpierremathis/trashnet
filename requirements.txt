@@ -1,7 +1,6 @@
 # packaging
 pip>=9
 setuptools>=26
-twine
 wheel>=0.29
 
 # data science
@@ -24,7 +23,7 @@ mlflow
 s3fs
 fastapi
 uvicorn
-Pillow
+Pillow==8.2.0
 python-multipart
 
 
