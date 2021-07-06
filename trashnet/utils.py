@@ -60,12 +60,13 @@ def get_confusion_matrix(ds_test, model):
 
     #creating confusion matrix
     cm = tf.math.confusion_matrix(y_true, y_pred, num_classes=6).numpy()
-
+    print(cm)
     # normalization of the matrix
     cm_norm = np.around(cm.astype('float') / cm.sum(axis=1)[:, np.newaxis], decimals=2)
-
+    print(cm_norm)
     #creation of a Dataframe
     cm_df = pd.DataFrame(cm_norm,target_names, target_names)
+    print(cm_df)
     return cm_df
 
 
