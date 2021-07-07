@@ -30,15 +30,16 @@ async def predict_api(file: UploadFile = File(...)):
     # Make a prediction
     image = read_image(await file.read())
     prediction_ohe = model.predict(image)
+    probability = float(max(prediction_ohe[0]))
     prediction = np.argmax(prediction_ohe, axis=1)
-    
+    api_answer = CLASSES[prediction[0]]
     
     # Download locally the file
     # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # filename = f"{timestamp}.jpg"
-    # with open(filename, "wb") as buffer:
+    # with open(filename, "wb"):
     #      shutil.copyfileobj(file.file, buffer)
-    # storage_upload(filename, answer)
+    # storage_upload(filename, api_answer)
     
-    return {"prediction" : CLASSES[prediction[0]],
-            "probability" : float(max(prediction_ohe[0]))}
+    return {"prediction" : api_answer,
+            "probability" : probability}
