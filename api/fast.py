@@ -27,5 +27,5 @@ async def predict_api(file: UploadFile = File(...)):
     prediction = np.argmax(prediction_ohe, axis=1)
     confidence = np.amax(prediction_ohe)
     return {"prediction" : CLASSES[prediction[0]],
-            "confidence" : confidence,
+            "confidence" : float(confidence),
             "probability" : float(max(prediction_ohe[0]))}
