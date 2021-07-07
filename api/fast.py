@@ -37,8 +37,8 @@ async def predict_api(file: UploadFile = File(...)):
     # Download locally the file
     # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # filename = f"{timestamp}.jpg"
-    # with open(filename, "wb"):
-    #      shutil.copyfileobj(file.file, buffer)
+    # with open(filename, "wb") as buffer:
+    #         shutil.copyfileobj(file.file, buffer)
     # storage_upload(filename, api_answer)
     
     return {"prediction" : api_answer,
