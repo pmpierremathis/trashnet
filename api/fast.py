@@ -4,7 +4,8 @@ from fastapi import UploadFile, File
 from trashnet.predict import read_image, load_model, CLASSES
 from trashnet.gcp import storage_upload
 import numpy as np
-import shutil
+import io
+from PIL import Image
 from datetime import datetime
 
 
@@ -29,20 +30,24 @@ async def predict_api(file: UploadFile = File(...)):
 
     
     # Make a prediction
-    image = read_image(await file.read())
+    image_bytes = await file.read()
+    image = read_image(image_bytes)
+    
     prediction_ohe = model.predict(image)
     probability = float(max(prediction_ohe[0]))
     prediction = np.argmax(prediction_ohe, axis=1)
     api_answer = CLASSES[prediction[0]]
     
-    #  # Download locally the file
-    # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # filename = f"{api_answer} {timestamp}.jpg"
-    # with open(filename, "wb") as buffer:
-    #         shutil.copyfileobj(file.file, buffer)
-            
+     # Download locally the file
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename = f"{api_answer} {timestamp}.jpg"
+    
+    imageStream = io.BytesIO(image_bytes)
+    imageFile = Image.open(imageStream)
+    imageFile.save(filename)
+
     # # Upload the file to GCS      
-    # storage_upload(filename, api_answer)
+    storage_upload(filename, api_answer)
     
     return {"prediction" : api_answer,
             "probability" : probability}

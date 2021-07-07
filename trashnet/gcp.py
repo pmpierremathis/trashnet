@@ -12,7 +12,7 @@ def storage_upload(image, label, rm = False):
     print(colored(f"=> image uploaded to bucket {BUCKET_NAME} inside {storage_location}",
                   "green"))
     
-    #rm = True
+    rm = True
     if rm:
         os.remove(image)
         print("file uploaded")
