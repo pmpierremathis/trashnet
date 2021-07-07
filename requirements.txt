@@ -24,6 +24,8 @@ fastapi
 uvicorn
 Pillow==8.2.0
 python-multipart
+shutil
+datetime
 
 
 # utilities
