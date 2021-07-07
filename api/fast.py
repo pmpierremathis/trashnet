@@ -26,6 +26,7 @@ model = load_model()
 
 @app.post("/predict/image")
 async def predict_api(file: UploadFile = File(...)):
+
     
     # Make a prediction
     image = read_image(await file.read())
@@ -34,11 +35,13 @@ async def predict_api(file: UploadFile = File(...)):
     prediction = np.argmax(prediction_ohe, axis=1)
     api_answer = CLASSES[prediction[0]]
     
-    # Download locally the file
+    #  # Download locally the file
     # timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # filename = f"{timestamp}.jpg"
+    # filename = f"{api_answer} {timestamp}.jpg"
     # with open(filename, "wb") as buffer:
     #         shutil.copyfileobj(file.file, buffer)
+            
+    # # Upload the file to GCS      
     # storage_upload(filename, api_answer)
     
     return {"prediction" : api_answer,
