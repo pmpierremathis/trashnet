@@ -44,8 +44,6 @@ async def predict_api(file: UploadFile = File(...)):
 @app.post("/labelling")
 async def upload_label(checked_label:str = Form(...), file: UploadFile = File(...)):
     # Download locally the file
-    print(type(checked_label))
-    print(type(file))
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{checked_label} {timestamp}.jpg"
     
