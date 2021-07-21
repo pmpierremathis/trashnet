@@ -1,3 +1,5 @@
 ### GCP Storage configuration - - - - - - - - - - - - - - - - - - -
 
-BUCKET_NAME = 'wagon-data-633-mathis-trashnet'
+PROJECT_ID="trashnet-project"
+
+BUCKET_NAME = 'wagon-data-633-ablond-trashnet'

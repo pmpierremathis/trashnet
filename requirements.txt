@@ -6,7 +6,6 @@ wheel>=0.29
 # data science
 numpy
 pandas
-scikit-learn
 tensorflow
 
 # tests/linter
@@ -25,6 +24,7 @@ fastapi
 uvicorn
 Pillow==8.2.0
 python-multipart
+datetime
 
 
 # utilities
